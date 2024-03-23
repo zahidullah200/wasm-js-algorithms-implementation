@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script async src="https://docs.opencv.org/master/opencv.js" onload="onOpenCvReady();" type="text/javascript"></script>
+    <title>JS WASM Convolution</title>
+    <link rel="stylesheet" href="../../assets/styles.css">
+</head>
+<body>
+    <div class="convolution-container">
+    <select id="implementationSelect">
+        <option value="wasm">WebAssembly</option>
+        <option value="js">JavaScript</option>
+    </select>
+    <input type="file" id="fileInput" accept="image/*">
+    <button id="processButton" onclick="processImage()">Process Image</button>
+    <div id="performanceLabel"></div>
+    <canvas id="canvas" width="400" height="400"></canvas>
+</div>
+<script>
+    let src, dst;
+    let lowThreshold = 50;
+
+    //wasm and JS implementation
+    function processImage() {
+        const fileInput = document.getElementById('fileInput');
+        const file = fileInput.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const img = new Image();
+            img.onload = function () {
+                const canvas = document.getElementById('canvas');
+                canvas.width = img.width;
+                canvas.height = img.height;
+
+                const context = canvas.getContext('2d');
+                context.drawImage(img, 0, 0, img.width, img.height);
+
+                // Convert image to grayscale directly to dst Mat
+                src = cv.imread(canvas);
+                dst = new cv.Mat();
+                cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY);
+
+                // Measure performance of convolution
+                let startTime = performance.now();
+
+                const implementationSelect = document.getElementById('implementationSelect');
+                const implementation = implementationSelect.value;
+                
+                if (implementation === 'wasm') {
+                    applyConvolutionWasm();
+                } else if (implementation === 'js') {
+                    applyConvolutionJs();
+                }
+
+                let endTime = performance.now();
+                let executionTime = endTime - startTime;
+                console.log(`Convolution execution time: ${executionTime} ms`);
+
+                // Display result
+                cv.imshow(canvas, dst);
+
+                // Display performance info
+                displayPerformanceInfo(executionTime);
+
+                // Clean up
+                src.delete();
+                dst.delete();
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function applyConvolutionWasm() {
+        // Apply GaussianBlur to reduce noise
+        cv.GaussianBlur(src, src, new cv.Size(5, 5), 2, 2);
+
+        // Apply Canny edge detection
+        cv.Canny(src, dst, lowThreshold, lowThreshold * 3, 3);
+
+        // Apply convolution
+        const kernel = [1, 0, -1, 1, 0, -1, 1, 0, -1]; // Example convolution kernel
+
+        // Call the convolution function
+        Module._applyConvolution(dst.data32S, kernel, dst.data32S, dst.cols, dst.rows);
+    }
+
+    function applyConvolutionJs() {
+        // Apply GaussianBlur to reduce noise
+        cv.GaussianBlur(src, src, new cv.Size(5, 5), 2, 2);
+
+        // Apply Canny edge detection
+        cv.Canny(src, dst, lowThreshold, lowThreshold * 3, 3);
+
+        // Apply threshold to invert colors
+        cv.threshold(dst, dst, 50, 255, cv.THRESH_BINARY_INV);
+
+        // Apply additional processing here if needed
+        // Example:
+        cv.threshold(dst, dst, 100, 255, cv.THRESH_BINARY);
+
+        // Apply convolution (this is just a placeholder)
+        // You can replace this with your own convolution logic
+        for (let i = 0; i < dst.rows; ++i) {
+            for (let j = 0; j < dst.cols; ++j) {
+                // Example convolution operation (just invert pixel values)
+                const pixelValue = dst.ucharPtr(i, j)[0];
+                dst.ucharPtr(i, j)[0] = 255 - pixelValue;
+            }
+        }
+    }
+
+    function displayPerformanceInfo(executionTime) {
+        const performanceLabel = document.getElementById('performanceLabel');
+        performanceLabel.textContent = `Execution Time: ${executionTime.toFixed(2)} ms`;
+    }
+
+    function onOpenCvReady() {
+        if (typeof cv !== 'undefined') {
+            // OpenCV is ready
+            document.getElementById('fileInput').disabled = false;
+        } else {
+            // Retry after a short delay
+            setTimeout(onOpenCvReady, 50);
+        }
+    }
+</script>
+
+<!--Web assembly Module loaded here-->
+<script>
+    let Module = {
+        onRuntimeInitialized: function () {
+            console.log("WebAssembly module loaded");
+            // Initialize any module-specific logic here
+        }
+    };
+
+    WebAssembly.instantiateStreaming(fetch('convolution.wasm'), {
+        env: {
+            memoryBase: 0,
+            tableBase: 0,
+            memory: new WebAssembly.Memory({ initial: 256, maximum: 256 }),
+            table: new WebAssembly.Table({ initial: 0, maximum: 0, element: 'anyfunc' }),
+            __memory_base: 0,
+            __table_base: 0,
+            stackSave: function() {},
+            stackRestore: function() {},
+            stackAlloc: function(size) { return 0; }
+        }
+    }).then(results => {
+        Module._applyConvolution = results.instance.exports.applyConvolution;
+        Module.onRuntimeInitialized();
+    }).catch(error => console.error(error));
+</script>
+
+</body>
+</html>

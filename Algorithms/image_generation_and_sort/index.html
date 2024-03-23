@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script src="./index.js" defer type="text/javascript"></script>
+  <link rel="stylesheet" href="../../assets/styles.css">
+</head>
+
+<body>
+  <div class="img-generation-sort-container">
+    <div class="title">
+      <h1> Javascript/Wasm image generation andsorting</h1>
+      <div id="numberContainer"></div>
+    </div>
+    <div class="main-div">
+      <canvas id="img-canvas">ImageGeneration</canvas>
+      <canvas id="sort-canvas"></canvas>
+      <div class="report">
+        <div>
+          <b><p id="time_taken"></p>Time taken</b>
+        </div>
+        <div>
+          <select style="" id="wasm-js">
+            <option value="" selected>Choose the compiler</option>
+            <option value="wasm">Web Assembly</option>
+            <option value="js">javascript</option>
+          </select>
+        </div>
+
+        <div>
+          <button id="sort_btn">Generate and Sort</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

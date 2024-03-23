@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reverse array</title>
+    <link rel="stylesheet" href="../../assets/styles.css">
+</head>
+<body>
+
+<div class="reverse-array-container">
+    <center><h1>Reverse Array</h1></center>
+    <textarea id="inputArray" placeholder="Enter numbers separated by commas"></textarea>
+    <select id="method">
+        <option value="wasm" id="webassembly">WebAssembly</option>
+        <option value="js" id="javascript">JavaScript</option>
+    </select>
+    <button onclick="reverseArray()" id="r_btn">Reverse</button>
+    <div class="output">
+        <div id="time_taken"></div>
+        <p id="reversedArray" style="height:400px"></p>
+    </div>
+</div>
+
+<script>
+    
+
+    //function to select only one algorithm at a time
+    function reverseArray() {
+        const inputArray = document.getElementById('inputArray').value.split(',').map(Number);
+        const method = document.getElementById('method').value;
+        const outputDiv = document.getElementById('reversedArray');
+        const performanceDiv = document.getElementById('time_taken');
+
+        if (method === 'wasm') {
+            reverseArr(inputArray, outputDiv, performanceDiv); // Call reverseArr
+        } else if (method === 'js') {
+            const startTime = performance.now();
+            const reversedArray = reverseJsArray(inputArray,inputArray.length);
+            const endTime = performance.now();
+            outputDiv.innerHTML = `<p>Reversed Array (JavaScript): ${reversedArray}</p>`;
+            performanceDiv.innerHTML = `<p> ${endTime - startTime} ms</p>`;
+        }
+    }
+
+
+
+    //Pure JavaScript function
+    function reverseJsArray(arr) {
+        let start = 0;
+        let end = arr.length - 1;
+    
+        while (start < end) {
+            // Swap elements at start and end indices
+            const temp = arr[start];
+            arr[start] = arr[end];
+            arr[end] = temp;
+    
+            // Move indices towards the center
+            start++;
+            end--;
+        }
+    
+        return arr;
+    }
+    
+    //Wasm function
+    function reverseArr(inputArray, outputDiv, performanceDiv) {
+        if (!Module || !Module._reverseArray || !Module._array_malloc || !Module._array_free) {
+            console.error("WebAssembly module or functions not loaded properly");
+            return;
+        }
+
+        const results = Module.results; // Retrieve `results` globally
+        const reverseArray = Module._reverseArray;
+        const arrayLength = inputArray.length;
+        const arrayPointer = Module._array_malloc(arrayLength * Int32Array.BYTES_PER_ELEMENT);
+        
+        // Access memory buffer from results object
+        const wasmMemory = new Int32Array(results.instance.exports.memory.buffer);
+        wasmMemory.set(inputArray, arrayPointer / Int32Array.BYTES_PER_ELEMENT);
+
+        const startTime = performance.now();
+        reverseArray(arrayPointer, arrayLength);
+        const endTime = performance.now();
+
+        const reversedArray = new Int32Array(wasmMemory.buffer, arrayPointer, arrayLength);
+        outputDiv.innerHTML = `<p>Reversed Array (WebAssembly): ${reversedArray}</p>`;
+        performanceDiv.innerHTML = `<p>${endTime - startTime} ms</p>`;
+
+        // Free the allocated memory
+        Module._array_free(arrayPointer);
+    }
+</script>
+
+
+
+
+
+
+
+<!-- WebAssembly module loading -->
+<script>
+    let Module = {
+        onRuntimeInitialized: function (results) {
+            console.log("WebAssembly module loaded");
+            // Initialize any module-specific logic here
+            Module.results = results; // Store `results` globally
+        }
+    };
+
+    // Load the WebAssembly module
+    WebAssembly.instantiateStreaming(fetch('thre.wasm'), {
+        env: {
+            memoryBase: 0,
+            tableBase: 0,
+            memory: new WebAssembly.Memory({ initial: 256, maximum: 256 }),
+            table: new WebAssembly.Table({ initial: 0, maximum: 0, element: 'anyfunc' }),
+            emscripten_resize_heap: function (size) {},
+        }
+    }).then(results => {
+        // Extract functions from the WebAssembly instance and store them in `Module`
+        Module._applyThreshold = results.instance.exports.applyThreshold;
+        Module._allocateMemory = results.instance.exports.allocateMemory;
+        Module._freeMemory = results.instance.exports.freeMemory;
+
+        // Call onRuntimeInitialized with `results`
+        Module.onRuntimeInitialized(results);
+    }).catch(error => console.error(error));
+</script>
+
+
+</body>
+</html>

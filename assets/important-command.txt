@@ -1,0 +1,18 @@
+-   image convolution:
+    -   emcc convolution.c -o convolution.js -s EXPORTED_FUNCTIONS="['_applyConvolution', '_freeMemory']" -s EXTRA_EXPORTED_RUNTIME_METHODS="['ccall', 'cwrap']" -s ALLOW_MEMORY_GROWTH=1 -O2
+
+
+-   Bubble sort:
+    -   emcc bubble.c -o bubble.js -s NO_EXIT_RUNTIME=1 -s EXPORTED_RUNTIME_METHODS=ccall,cwrap
+
+-   Reverse array:
+    -   emcc reverse.c -o reverse.js -s NO_EXIT_RUNTIME=1 -s EXPORTED_RUNTIME_METHODS=ccall,cwrap
+
+-   Threshold image processing:
+    -   emcc thre.c -o thret.js -s NO_EXIT_RUNTIME=1 -s EXPORTED_RUNTIME_METHODS=ccall,cwrap
+
+-   Fabonacci recursion:
+    -   emcc fibo.c -s NO_EXIT_RUNTIME=1 -s EXPORTED_RUNTIME_METHODS=ccall,cwrap -o2
+
+-   quick sort:
+    -   emcc quick.c -o quick.js -s NO_EXIT_RUNTIME=1 -s EXPORTED_RUNTIME_METHODS=ccall,cwrap

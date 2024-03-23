@@ -1,0 +1,497 @@
+
+/*main page*/
+.main-container {
+    
+    display: grid;
+    place-items: center; /* center both horizontally and vertically */
+
+    
+.cards-list {
+    z-index: 0;
+    width: 50%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    
+}
+
+.card .card_image {
+    width: inherit;
+    height: inherit;
+    border-radius: 40px;
+}
+
+.card .card_image img {
+    width: inherit;
+    height: inherit;
+    border-radius: 40px;
+    object-fit: cover;
+}
+
+.card .card_title {
+    text-align: center;
+    border-radius: 0px 0px 40px 40px;
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: -140px;
+    height: 40px;
+}
+
+.card:hover {
+    transform: scale(0.9, 0.9);
+    box-shadow: 5px 5px 30px 15px rgba(0,0,0,0.25), 
+        -5px -5px 30px 15px rgba(0,0,0,0.22);
+}
+
+@media all and (max-width: 500px) {
+    .card-list {
+        /* On small screens, we are no longer using row direction but column */
+        flex-direction: column;
+    }
+}
+
+.card {
+    margin: 20px auto;
+    max-width: 210px;
+    height: 210px;
+    color: black;
+    border-radius: 40px;
+    background-color: rgb(171, 225, 240);
+    box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.1), -5px -5px 30px 7px rgba(0,0,0,0.1);
+    transition: 0.4s;
+}
+
+.crd-t {
+    text-decoration: none;
+    color: white;
+}
+.btn{
+font-size: 25px;
+opacity: 0.8;
+border: none;
+text-align: center;
+background-color: transparent; 
+color: black;
+}
+}
+
+
+
+/*Bubble sort here*/
+
+/* body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+} */
+
+.bubble-container {
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+    h1{
+        font-family:Eras Bold ITC; 
+        font-size:37px;
+        color: #333;
+        text-align: center;
+    }
+    
+    textarea {
+        width: 98%;
+        padding: 10px;
+        font-size: 16px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        height: 150px;
+    }
+    
+    label,
+    select,
+    button {
+        display: block;
+        margin-bottom: 10px;
+    }
+    
+    select,
+    button {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        background-color: #007bff;
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    
+    select:hover,
+    button:hover {
+        background-color: #0056b3;
+    }
+    
+    button:active {
+        background-color: #004080;
+    }
+    
+    #buble_btn {
+        float: none;
+        margin-right: 0;
+    }
+    
+    
+    p {
+        margin-top: 20px;
+        font-size: 16px;
+        text-align: center;
+    }
+}
+
+
+
+/* Image generation and sorting */
+.img-generation-sort-container{
+    .report {
+        position: absolute;
+        top: 115px;
+        margin-left: 6px;
+        display: inline-block;
+  
+  
+      }
+  
+      .main-div {
+        margin-left: 100px;
+      }
+  
+      .text-container {
+        position: absolute;
+        top: 300px;
+        /* Adjust the top position as needed */
+        left: 150px;
+        /* Adjust the left position as needed */
+        background-color: rgba(255, 255, 255, 0.101);
+        padding: 10px;
+        border: 1px solid #000;
+      }
+
+      .title{
+        display:flexl; 
+        align-items:center; 
+        justify-content:center;
+        flex-direction:column;
+        h1{
+            font-family:Eras Bold ITC; 
+            font-size:37px;
+            margin-left:195px;
+        }
+      }
+
+      #img-canvas{
+        margin-top:2em;
+        background-color:rgb(212, 229, 255); 
+        margin-right:3px; 
+        height:500px; 
+        width:500px; 
+        border-radius:10px;
+      }
+      #sort-canvas{
+        margin-top:2em;
+        background-color:rgb(212, 229, 255);
+        height:500px;
+        width:500px; 
+        border-radius:10px;
+      }
+      .report{
+        height: 500px; 
+        width:auto;
+      }
+
+    select{
+        margin-top:0.5em; 
+        height: 30px; 
+        width:160px;
+        border:1px solid red; 
+        border-radius:10px;  
+    }
+    #sort_btn{
+        height: 30px; 
+        width:160px;
+        border:1px solid red; 
+        border-radius:10px; 
+        margin-top:15px;
+    }
+}
+
+
+
+
+/* Reverse array */
+.reverse-array-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    textarea {
+        width: 100%;
+        height: 100px;
+        margin-bottom: 20px;
+    }
+    select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        font-size: 16px;
+    }
+    button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+    .output {
+        margin-top: 20px;
+    }
+    #reversedArray{
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        background-color: #f4f4f4;
+        padding: 10px;
+        border-radius: 5px;
+        margin: 40px;
+        overflow: auto;
+        word-wrap: break-word;  
+    }
+}
+
+
+
+/* Threshold image processing */
+
+.threshold-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    h1{
+        text-align:center;
+    }
+    
+  /* Style for labels */
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  /* Style for select dropdown */
+  select {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+  }
+
+  /* Style for file input */
+  input[type="file"] {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  /* Style for buttons */
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    margin-right: 10px;
+  }
+
+  /* Hover effect for buttons */
+  button:hover {
+    background-color: #0056b3;
+  }
+
+  /* Style for canvas */
+  canvas {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-top: 20px;
+  }
+  }
+
+
+
+  /* Fibonacci algorithm design */
+  .fibonacci-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    label {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+    select, input[type="text"], button {
+        width: calc(100% - 20px);
+        padding: 10px;
+        margin-bottom: 20px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    button {
+        background-color: #007bff;
+        color: #fff;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+    .output {
+        margin-top: 20px;
+        font-size: 16px;
+    }
+}
+
+
+
+/* Quicksort */
+.quicksort-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    textarea {
+        width: 100%;
+        height: 100px;
+        margin-bottom: 20px;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+    select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        font-size: 16px;
+        box-sizing: border-box;
+    }
+    button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+    .output {
+        margin-top: 20px;
+    }
+    #timeLabel {
+        font-size: 18px;
+        color: #333;
+        margin-bottom: 10px;
+    }
+    #sortedArray {
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        background-color: #f4f4f4;
+        padding: 10px;
+        border-radius: 5px;
+        overflow: auto;
+        word-wrap: break-word;
+    }
+}
+
+
+
+/* Convolutional image processing */
+
+.convolution-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+      /* Style for labels */
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  /* Style for select dropdown */
+  select {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+  }
+
+  /* Style for file input */
+  input[type="file"] {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  /* Style for buttons */
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    margin-right: 10px;
+  }
+
+  /* Hover effect for buttons */
+  button:hover {
+    background-color: #0056b3;
+  }
+
+  /* Style for canvas */
+  canvas {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-top: 20px;
+  }
+  }
+
