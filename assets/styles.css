@@ -77,21 +77,11 @@ color: black;
 }
 
 
-
-/*Bubble sort here*/
-
-/* body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
-    margin: 0;
-    padding: 0;
-} */
-
-.bubble-container {
-    max-width: 600px;
+.container {
+    max-width: 800px;
     margin: 50px auto;
-    background-color: #fff;
     padding: 20px;
+    background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
@@ -119,22 +109,52 @@ color: black;
         margin-bottom: 10px;
     }
     
-    select,
-    button {
+    select{
         width: 100%;
         padding: 10px;
         font-size: 16px;
         border: none;
         border-radius: 5px;
-        background-color: #007bff;
+        color: #fff;
+        background-color: #0056b3;
+        cursor: pointer;
+        transition: background-color 0.03s ease;
+    }
+    button{
+        width: 20%;
+        padding: 10px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        background-color: #0056b3;
         color: #fff;
         cursor: pointer;
         transition: background-color 0.3s ease;
+
+    }
+
+    select, input[type="text"] {
+        width: calc(100% - 20px);
+        padding: 10px;
+        margin-bottom: 20px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+
+    #thresholdImageInput{
+        margin:10px;
+    }
+    #processButton{
+        margin-top:10px;
+        margin-down:10px;
     }
     
     select:hover,
     button:hover {
-        background-color: #0056b3;
+        opacity:0.7;
     }
     
     button:active {
@@ -215,11 +235,15 @@ color: black;
       }
 
     select{
-        margin-top:0.5em; 
-        height: 30px; 
-        width:160px;
-        border:1px solid red; 
-        border-radius:10px;  
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        background-color: #007bff;
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
     }
     #sort_btn{
         height: 30px; 
@@ -230,268 +254,4 @@ color: black;
     }
 }
 
-
-
-
-/* Reverse array */
-.reverse-array-container {
-    max-width: 800px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    textarea {
-        width: 100%;
-        height: 100px;
-        margin-bottom: 20px;
-    }
-    select {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 20px;
-        font-size: 16px;
-    }
-    button {
-        padding: 10px 20px;
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 16px;
-    }
-    button:hover {
-        background-color: #0056b3;
-    }
-    .output {
-        margin-top: 20px;
-    }
-    #reversedArray{
-        font-family: Arial, sans-serif;
-        font-size: 16px;
-        background-color: #f4f4f4;
-        padding: 10px;
-        border-radius: 5px;
-        margin: 40px;
-        overflow: auto;
-        word-wrap: break-word;  
-    }
-}
-
-
-
-/* Threshold image processing */
-
-.threshold-container {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    h1{
-        text-align:center;
-    }
-    
-  /* Style for labels */
-  label {
-    display: block;
-    margin-bottom: 5px;
-  }
-
-  /* Style for select dropdown */
-  select {
-    width: 100%;
-    padding: 8px;
-    font-size: 16px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background-color: #fff;
-  }
-
-  /* Style for file input */
-  input[type="file"] {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-
-  /* Style for buttons */
-  button {
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    background-color: #007bff;
-    color: #fff;
-    margin-right: 10px;
-  }
-
-  /* Hover effect for buttons */
-  button:hover {
-    background-color: #0056b3;
-  }
-
-  /* Style for canvas */
-  canvas {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin-top: 20px;
-  }
-  }
-
-
-
-  /* Fibonacci algorithm design */
-  .fibonacci-container {
-    max-width: 800px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    label {
-        font-size: 16px;
-        margin-bottom: 10px;
-    }
-    select, input[type="text"], button {
-        width: calc(100% - 20px);
-        padding: 10px;
-        margin-bottom: 20px;
-        font-size: 16px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
-    }
-    button {
-        background-color: #007bff;
-        color: #fff;
-        cursor: pointer;
-    }
-    button:hover {
-        background-color: #0056b3;
-    }
-    .output {
-        margin-top: 20px;
-        font-size: 16px;
-    }
-}
-
-
-
-/* Quicksort */
-.quicksort-container {
-    max-width: 800px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    textarea {
-        width: 100%;
-        height: 100px;
-        margin-bottom: 20px;
-        padding: 10px;
-        box-sizing: border-box;
-    }
-    select {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 20px;
-        font-size: 16px;
-        box-sizing: border-box;
-    }
-    button {
-        padding: 10px 20px;
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 16px;
-    }
-    button:hover {
-        background-color: #0056b3;
-    }
-    .output {
-        margin-top: 20px;
-    }
-    #timeLabel {
-        font-size: 18px;
-        color: #333;
-        margin-bottom: 10px;
-    }
-    #sortedArray {
-        font-family: Arial, sans-serif;
-        font-size: 16px;
-        background-color: #f4f4f4;
-        padding: 10px;
-        border-radius: 5px;
-        overflow: auto;
-        word-wrap: break-word;
-    }
-}
-
-
-
-/* Convolutional image processing */
-
-.convolution-container {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-      /* Style for labels */
-  label {
-    display: block;
-    margin-bottom: 5px;
-  }
-
-  /* Style for select dropdown */
-  select {
-    width: 100%;
-    padding: 8px;
-    font-size: 16px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background-color: #fff;
-  }
-
-  /* Style for file input */
-  input[type="file"] {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-
-  /* Style for buttons */
-  button {
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    background-color: #007bff;
-    color: #fff;
-    margin-right: 10px;
-  }
-
-  /* Hover effect for buttons */
-  button:hover {
-    background-color: #0056b3;
-  }
-
-  /* Style for canvas */
-  canvas {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin-top: 20px;
-  }
-  }
 

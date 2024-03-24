@@ -8,14 +8,14 @@
 </head>
 <body>
 
-<div class="reverse-array-container">
+<div class="container">
     <center><h1>Reverse Array</h1></center>
     <textarea id="inputArray" placeholder="Enter numbers separated by commas"></textarea>
     <select id="method">
         <option value="wasm" id="webassembly">WebAssembly</option>
         <option value="js" id="javascript">JavaScript</option>
     </select>
-    <button onclick="reverseArray()" id="r_btn">Reverse</button>
+    <button onclick="reverseArray()" id="r_btn">Click to reverse</button>
     <div class="output">
         <div id="time_taken"></div>
         <p id="reversedArray" style="height:400px"></p>
@@ -110,7 +110,7 @@
     };
 
     // Load the WebAssembly module
-    WebAssembly.instantiateStreaming(fetch('thre.wasm'), {
+    WebAssembly.instantiateStreaming(fetch('reverse.wasm'), {
         env: {
             memoryBase: 0,
             tableBase: 0,
@@ -120,9 +120,9 @@
         }
     }).then(results => {
         // Extract functions from the WebAssembly instance and store them in `Module`
-        Module._applyThreshold = results.instance.exports.applyThreshold;
-        Module._allocateMemory = results.instance.exports.allocateMemory;
-        Module._freeMemory = results.instance.exports.freeMemory;
+        Module._reverseArray = results.instance.exports.reverseArray;
+        Module._array_malloc = results.instance.exports.array_malloc;
+        Module._array_free = results.instance.exports.array_free;
 
         // Call onRuntimeInitialized with `results`
         Module.onRuntimeInitialized(results);

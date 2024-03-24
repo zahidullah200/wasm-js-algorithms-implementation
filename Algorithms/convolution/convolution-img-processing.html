@@ -8,14 +8,15 @@
     <link rel="stylesheet" href="../../assets/styles.css">
 </head>
 <body>
-    <div class="convolution-container">
+    <div class="container">
+        <h1>Convolution image processing</h1>
     <select id="implementationSelect">
         <option value="wasm">WebAssembly</option>
         <option value="js">JavaScript</option>
     </select>
     <input type="file" id="fileInput" accept="image/*">
     <button id="processButton" onclick="processImage()">Process Image</button>
-    <div id="performanceLabel"></div>
+    <label id="performanceLabel"></label>
     <canvas id="canvas" width="400" height="400"></canvas>
 </div>
 <script>
@@ -116,7 +117,7 @@
 
     function displayPerformanceInfo(executionTime) {
         const performanceLabel = document.getElementById('performanceLabel');
-        performanceLabel.textContent = `Execution Time: ${executionTime.toFixed(2)} ms`;
+        performanceLabel.textContent = `${executionTime.toFixed(2)} ms`;
     }
 
     function onOpenCvReady() {

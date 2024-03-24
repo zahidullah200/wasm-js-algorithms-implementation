@@ -10,16 +10,14 @@
 
 <body>
 
-    <div class="quicksort-container">
-        <center>
+    <div class="container">
             <h1>Quick Sort</h1>
-        </center>
         <textarea id="inputArray" placeholder="Enter numbers separated by commas"></textarea>
         <select id="method">
-            <option value="wasm">WebAssembly</option>
-            <option value="js">JavaScript</option>
+            <option value="wasm" id="WebAssembly">WebAssembly</option>
+            <option value="js"  id="JavaScript">JavaScript</option>
         </select>
-        <button onclick="sortArray()">Sort</button>
+        <button onclick="sortArray()" id="quick_btn">Sort Elementts</button>
         <div class="output">
             <div id="timeLabel"></div>
             <p id="sortedArray"></p>
@@ -43,7 +41,7 @@
             const endTime = performance.now();
             const elapsedTime = endTime - startTime;
 
-            document.getElementById("timeLabel").textContent = `Time taken: ${elapsedTime.toFixed(2)} ms`;
+            document.getElementById("timeLabel").textContent = `${elapsedTime.toFixed(2)} ms`;
             document.getElementById("sortedArray").textContent = sortedArray.join(", ");
         }
 
