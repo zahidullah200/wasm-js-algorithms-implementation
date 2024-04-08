@@ -6,6 +6,7 @@
     <script async src="https://docs.opencv.org/master/opencv.js" onload="onOpenCvReady();" type="text/javascript"></script>
     <title>JS WASM Convolution</title>
     <link rel="stylesheet" href="../../assets/styles.css">
+    
 </head>
 <body>
     <div class="container">
@@ -17,7 +18,7 @@
     <input type="file" id="fileInput" accept="image/*">
     <button id="processButton" onclick="processImage()">Process Image</button>
     <label id="performanceLabel"></label>
-    <canvas id="canvas" width="400" height="400"></canvas>
+   <div id="canvasdiv"> <canvas id="canvas"></canvas></div>
 </div>
 <script>
     let src, dst;

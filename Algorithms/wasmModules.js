@@ -1,20 +1,29 @@
-// wasmModules.js
+// wasmload.js
 
-let Module = {}; // Object to store loaded WebAssembly modules
+let wasmModules = {}; // Object to store all WebAssembly modules
 
-function loadWasmModule(moduleName, wasmFile, importObject) {
-    return fetch(wasmFile)
-        .then(response => response.arrayBuffer())
-        .then(bytes => WebAssembly.instantiate(bytes, importObject))
-        .then(results => {
-            Module[moduleName] = results.instance.exports;
+// Load WebAssembly module and store it in the wasmModules object
+function loadWasmModule(moduleName, instanceName, importObject) {
+    return WebAssembly.instantiateStreaming(fetch(moduleName), importObject)
+        .then((results) => {
+            wasmModules[instanceName] = results.instance.exports;
             console.log(`${moduleName} WebAssembly module loaded`);
         })
-        .catch(error => console.error(error));
+        .catch(error => console.error(`Error loading ${moduleName} WebAssembly module:`, error));
 }
 
-// Common import object for all WebAssembly modules
-const commonImportObject = {
+// Load bubble sort WebAssembly module
+loadWasmModule("bubble.wasm", "bubbleSort", {
+    env: {
+        emscripten_resize_heap: function (size) {
+            // Implementation if needed
+            return 0; // Return success (0) by default
+        },
+    },
+});
+
+// Load convolutionImg WebAssembly module
+loadWasmModule("convolution.wasm", "convolutionImg", {
     env: {
         memoryBase: 0,
         tableBase: 0,
@@ -26,12 +35,15 @@ const commonImportObject = {
         stackRestore: function() {},
         stackAlloc: function(size) { return 0; }
     }
-};
+});
 
-// Load convolution WebAssembly module
-loadWasmModule('convolution', 'convolution.wasm', commonImportObject);
+// Load fibonacci WebAssembly module
+loadWasmModule("fibo.wasm", "fibonacci", {
+    env: {
+        emscripten_resize_heap: function (size) {
+            return 0; // Return success (0) by default
+        }
+    }
+});
 
-// Load Bubble Sort WebAssembly module
-loadWasmModule('bubbleSort', 'bubbleSort.wasm', commonImportObject);
-
-// Add more functions to load additional modules if needed
+// Now wasmModules object contains all the WebAssembly modules, accessible by their respective instance names

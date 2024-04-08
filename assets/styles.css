@@ -166,13 +166,31 @@ color: black;
         margin-right: 0;
     }
     
-    
-    p {
-        margin-top: 20px;
-        font-size: 16px;
-        text-align: center;
+    #output, p {
+       
+      
+            margin-top: 20px;
+            font-size: 16px;
+            text-align: center;
+            word-wrap: break-word;
+            max-height: 800px; /* Maximum height before scrollbar appears */
+            overflow-y: auto; 
+        
     }
+    #fileInput {
+        margin-bottom: 10px;
+    }
+
+    #canvasdiv {
+        border: 2px solid #333;
+        margin-bottom: 10px;
+        height: 600px;
+        width: 600px;
+    }
+
+ 
 }
+
 
 
 
@@ -252,6 +270,7 @@ color: black;
         border-radius:10px; 
         margin-top:15px;
     }
+  
 }
 
 
