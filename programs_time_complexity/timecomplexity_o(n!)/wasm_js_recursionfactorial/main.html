@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factorial Calculator</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <script src="scripts.js" defer></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Factorial Calculator</h1>
+        <div class="form-group">
+            <label for="method">Select method:</label>
+            <select id="method">
+                <option value="wasm">WebAssembly</option>
+                <option value="js">JavaScript</option>
+            </select>
+        </div>
+        <button id="calculateBtn">Calculate Factorial</button>
+        <div class="result" id="result">
+            <!-- Result will be displayed here -->
+        </div>
+    </div>
+
+</body>
+
+</html>

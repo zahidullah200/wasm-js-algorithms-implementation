@@ -1,5 +1,5 @@
 -   image convolution:
-    -   emcc convolution.c -o convolution.js -s EXPORTED_FUNCTIONS="['_applyConvolution', '_freeMemory']" -s EXTRA_EXPORTED_RUNTIME_METHODS="['ccall', 'cwrap']" -s ALLOW_MEMORY_GROWTH=1 -O2
+    -   emcc convolution.c -o convolution.js -s EXPORTED_FUNCTIONS="['_applyConvolution', '_freeMemory']" -s EXTRA_EXPORTED_RUNTIME_METHODS="['ccall', 'cwrap']"  -O2
 
 
 -   Bubble sort:

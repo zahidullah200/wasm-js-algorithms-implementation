@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traveling Salesman Problem</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Traveling Salesman Problem</h1>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function tsp(graph) {
+            const n = graph.length;
+            const memo = []; // Memoization table to store subproblem solutions
+
+            // Helper function to recursively find the shortest path
+            function findPath(curr, visited) {
+                if (visited === (1 << n) - 1) {
+                    // All cities have been visited
+                    return graph[curr][0]; // Return to starting city
+                }
+
+                // Check if the subproblem has already been solved
+                if (memo[curr] && memo[curr][visited] !== undefined) {
+                    return memo[curr][visited];
+                }
+
+                let minDist = Infinity;
+
+                for (let next = 0; next < n; next++) {
+                    if (next !== curr && !(visited & (1 << next))) {
+                        // If the next city is not the current city and not yet visited
+                        const newDist = graph[curr][next] + findPath(next, visited | (1 << next));
+                        minDist = Math.min(minDist, newDist);
+                    }
+                }
+
+                // Store the result in the memoization table
+                if (!memo[curr]) {
+                    memo[curr] = [];
+                }
+                memo[curr][visited] = minDist;
+
+                return minDist;
+            }
+
+            // Start from the first city (index 0) and visit no other cities yet
+            return findPath(0, 1);
+        }
+
+        // Example graph representing distances between cities
+        const graph = [
+            [0, 10, 15, 20], // Distance from city 0 to other cities
+            [10, 0, 35, 25], // Distance from city 1 to other cities
+            [15, 35, 0, 30], // Distance from city 2 to other cities
+            [20, 25, 30, 0]  // Distance from city 3 to other cities
+        ];
+
+        // Measure performance
+        const startTime = performance.now();
+        const shortestDistance = tsp(graph);
+        const endTime = performance.now();
+        const elapsedTime = endTime - startTime;
+
+        // Display result, performance time, and time complexity
+        const resultDiv = document.getElementById("result");
+        resultDiv.innerHTML = `
+            <p><strong>Result:</strong> Shortest distance: ${shortestDistance}</p>
+            <p><strong>Performance Time:</strong> ${elapsedTime.toFixed(2)} milliseconds</p>
+            <p><strong>Time Complexity:</strong> O(2^n * n^2)</p>
+        `;
+    </script>
+</body>
+</html>

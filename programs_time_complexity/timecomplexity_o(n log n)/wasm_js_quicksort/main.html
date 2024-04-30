@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Sort</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <script src="scripts.js" defer></script>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Quick Sort</h1>
+        <textarea id="inputArray" placeholder="Enter numbers separated by commas"></textarea>
+        <select id="method">
+            <option value="wasm" id="WebAssembly">WebAssembly</option>
+            <option value="js" id="JavaScript">JavaScript</option>
+        </select>
+        <button onclick="sortArray()" id="quick_btn">Sort Elementts</button>
+        <div class="output">
+            <div id="timeLabel"></div>
+            <p id="sortedArray"></p>
+        </div>
+    </div>
+</body>
+
+</html>

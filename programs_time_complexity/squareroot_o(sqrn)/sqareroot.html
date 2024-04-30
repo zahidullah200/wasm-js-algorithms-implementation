@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Square Roots up to N (O(√n))</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 80%;
+        width: 400px;
+        text-align: center;
+    }
+
+    h1 {
+        margin-top: 0;
+    }
+
+    button {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    .result {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        text-align: left;
+        height: 200px;
+        overflow-y: scroll;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Square Roots up to N (O(√n))</h1>
+    <button onclick="calculateRoots()">Calculate Roots</button>
+    <div class="result" id="rootResult"></div>
+</div>
+
+<script>
+    function calculateRoots() {
+        const n = 1085900; // Adjust the value of n
+        const { time, result } = measurePerformance(() => {
+            const roots = findSquareRoots(n);
+            return roots;
+        });
+
+        displayResult(time, result, "rootResult", "Square Roots up to " + n + " (O(√n))");
+    }
+
+    function measurePerformance(func) {
+        const start = performance.now();
+        const result = func();
+        const end = performance.now();
+        const time = end - start;
+        return { time, result };
+    }
+
+    function findSquareRoots(n) {
+        const roots = [];
+        for (let i = 1; i <= n; i++) {
+            roots.push(Math.sqrt(i));
+        }
+        return roots;
+    }
+
+    function displayResult(time, result, elementId, title) {
+        const resultElement = document.getElementById(elementId);
+        resultElement.innerHTML = `
+            <h2>${title}</h2>
+            <p>Execution Time: ${time.toFixed(2)} milliseconds</p>
+            <p>Square Roots: ${result.join(", ")}</p>
+        `;
+    }
+</script>
+
+</body>
+</html>

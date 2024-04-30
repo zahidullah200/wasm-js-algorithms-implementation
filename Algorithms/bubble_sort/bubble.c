@@ -15,7 +15,6 @@ void array_free(int32_t* arr) {
     free(arr);
 }
 
-
 EMSCRIPTEN_KEEPALIVE
 void bubbleSort(int32_t* arr, int32_t size) {
     for (int32_t i = 0; i < size - 1; ++i) {
