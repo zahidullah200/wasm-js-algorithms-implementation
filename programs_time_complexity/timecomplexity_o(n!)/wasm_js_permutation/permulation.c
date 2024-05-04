@@ -3,10 +3,11 @@
 #include <emscripten.h>
 
 // Function to calculate permutations
+EMSCRIPTEN_KEEPALIVE
 int calculatePermutations(int n)
 {
     // Allocate memory for the array to store permutations
-    double *permutations = (double *)malloc((n + 1) * sizeof(double));
+    double *permutations = (double *)malloc((n + 1) * sizeof(long double));
     if (permutations == NULL)
     {
         return -1; // Memory allocation failed
@@ -34,15 +35,4 @@ int calculatePermutations(int n)
     free(permutations);
 
     return result;
-}
-
-// Function exposed to JavaScript
-EMSCRIPTEN_KEEPALIVE
-double testPermutation(int n)
-{
-    if (n < 0)
-    {
-        return -1; // Error handling for invalid input
-    }
-    return calculatePermutations(n);
 }

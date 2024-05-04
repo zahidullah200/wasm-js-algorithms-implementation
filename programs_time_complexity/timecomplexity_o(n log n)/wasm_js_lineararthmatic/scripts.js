@@ -17,7 +17,29 @@ function runTest() {
 // JavaScript test function for linearithmic time complexity (O(n log n))
 function testLinearithmicTime() {
   const { time, result } = measurePerformance(() => {
-    // Merge sort algorithm
+    // Function to merge two sorted arrays
+    function merge(left, right) {
+      const result = [];
+      let leftIndex = 0;
+      let rightIndex = 0;
+      while (leftIndex < left.length && rightIndex < right.length) {
+        if (left[leftIndex] < right[rightIndex]) {
+          result.push(left[leftIndex++]);
+        } else {
+          result.push(right[rightIndex++]);
+        }
+      }
+      // Add remaining elements
+      while (leftIndex < left.length) {
+        result.push(left[leftIndex++]);
+      }
+      while (rightIndex < right.length) {
+        result.push(right[rightIndex++]);
+      }
+      return result;
+    }
+
+    // Function for recursive merge sort
     function mergeSort(arr) {
       if (arr.length <= 1) {
         return arr;
@@ -28,25 +50,10 @@ function testLinearithmicTime() {
       return merge(left, right);
     }
 
-    // Merge two sorted arrays
-    function merge(left, right) {
-      let result = [];
-      let leftIndex = 0;
-      let rightIndex = 0;
-      while (leftIndex < left.length && rightIndex < right.length) {
-        if (left[leftIndex] < right[rightIndex]) {
-          result.push(left[leftIndex]);
-          leftIndex++;
-        } else {
-          result.push(right[rightIndex]);
-          rightIndex++;
-        }
-      }
-      return result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
-    }
-
     // Generate random array and perform merge sort (O(n log n))
-    const arr = Array.from({ length: 10000 }, () => Math.floor(Math.random() * 10000));
+    const arr = Array.from({ length: 10000 }, () =>
+      Math.floor(Math.random() * 10000)
+    );
     const result = mergeSort(arr);
     return result;
   });
@@ -79,38 +86,44 @@ function testTimeComplexityWASM() {
       },
       emscripten_date_now: Date.now,
     },
-  }).then((results) => {
-    const { instance } = results;
-    
-    // Export WebAssembly functions
-    Module._generateAndSort = instance.exports.generateAndSort;
+  })
+    .then((results) => {
+      const { instance } = results;
 
-    const length = 10000; // Adjust the length of the array
-    const arr = new Int32Array(length);
-    for (let i = 0; i < length; i++) {
-      arr[i] = Math.floor(Math.random() * length);
-    }
+      // Export WebAssembly functions
+      Module._generateAndSort = instance.exports.generateAndSort;
 
-    // Allocate memory in WebAssembly linear memory
-    const arrPointer = instance.exports.__heap_base;
-    const mem = new Int32Array(instance.exports.memory.buffer, arrPointer, length);
-    mem.set(arr);
+      const length = 10000; // Adjust the length of the array
+      const arr = new Int32Array(length);
+      for (let i = 0; i < length; i++) {
+        arr[i] = Math.floor(Math.random() * length);
+      }
 
-    Module._generateAndSort(arrPointer, length); // Call the WebAssembly function
+      // Allocate memory in WebAssembly linear memory
+      const arrPointer = instance.exports.__heap_base;
+      const mem = new Int32Array(
+        instance.exports.memory.buffer,
+        arrPointer,
+        length
+      );
+      mem.set(arr);
 
-    // Copy sorted array back to JavaScript
-    const result = Array.from(mem);
+      Module._generateAndSort(arrPointer, length); // Call the WebAssembly function
 
-    const endTime = performance.now(); // End time
-    const elapsedTime = endTime - startTime; // Execution time
+      // Copy sorted array back to JavaScript
+      const result = Array.from(mem);
 
-    displayResult(
-      elapsedTime,
-      result,
-      "linearithmicResult",
-      "Linearithmic Time (O(n log n))"
-    ); // Display the result
-  }).catch((err) => console.error("Error loading WebAssembly module:", err));
+      const endTime = performance.now(); // End time
+      const elapsedTime = endTime - startTime; // Execution time
+
+      displayResult(
+        elapsedTime,
+        result,
+        "linearithmicResult",
+        "Linearithmic Time (O(n log n))"
+      ); // Display the result
+    })
+    .catch((err) => console.error("Error loading WebAssembly module:", err));
 }
 
 // Function to measure performance
@@ -128,7 +141,7 @@ function displayResult(time, result, resultId, title) {
   resultDiv.innerHTML = `
         <h2>${title}</h2>
         <p>Time Complexity: O(n log n)</p>
-        <p>Performance Time: ${time.toFixed(2)} milliseconds</p>
+        <p>Performance Time: ${time} ms</p>
         <div class="scrollable">
             <pre>${JSON.stringify(result, null, 2)}</pre>
         </div>

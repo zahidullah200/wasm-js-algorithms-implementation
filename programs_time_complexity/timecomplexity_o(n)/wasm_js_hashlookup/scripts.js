@@ -36,47 +36,24 @@ function testHashLookupJS() {
   displayResult(time, sum);
 }
 
-// WebAssembly test function for hash table lookup
-async function testHashLookupWASM() {
-  try {
-    // Fetch and instantiate the WebAssembly module
-    const response = await fetch("hashlookup.wasm");
-    const { instance } = await WebAssembly.instantiateStreaming(response, {
-      env: {
-        memoryBase: 0,
-        tableBase: 0,
-        memory: new WebAssembly.Memory({ initial: 256, maximum: 256 }),
-        table: new WebAssembly.Table({ initial: 0, maximum: 0, element: "anyfunc" }),
-        emscripten_resize_heap: () => {},
-        emscripten_memcpy_js: (dest, source, num) => {
-          var destView = new Uint8Array(instance.exports.memory.buffer, dest, num);
-          var sourceView = new Uint8Array(instance.exports.memory.buffer, source, num);
-          destView.set(sourceView);
-        },
-      },
-    });
+// WebAssembly test for time complexity O(n^4)
+function testHashLookupWASM() {
+  fetch("hashlookup.wasm")
+    .then((response) => WebAssembly.instantiateStreaming(response, {}))
+    .then((obj) => {
+      const { instance } = obj;
+      const testHashLookup = instance.exports.testHashLookup;
 
-    const testHashLookup = instance.exports.testHashLookup;
+      // Measure the performance of WebAssembly function
+      const start = performance.now();
+      const result = testHashLookup();
+      const end = performance.now();
+      const time = end - start;
 
-    // Record start time
-    const startTime = performance.now();
-
-    // Call the WebAssembly function
-    const result = testHashLookup();
-
-    // Record end time
-    const endTime = performance.now();
-
-    // Calculate time taken
-    const time = endTime - startTime;
-
-    // Display result
-    displayResult(time, result);
-  } catch (error) {
-    console.error("Error loading WebAssembly module:", error);
-  }
+      displayResult(time, result);
+    })
+    .catch((err) => console.error("Error loading WebAssembly module:", err));
 }
-
 // Function to display the test result
 function displayResult(time, result) {
   const resultDiv = document.getElementById("result");

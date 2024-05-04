@@ -16,3 +16,40 @@
 
 -   quick sort:
     -   emcc quick.c -o quick.js -s NO_EXIT_RUNTIME=1 -s EXPORTED_RUNTIME_METHODS=ccall,cwrap
+
+
+
+
+
+Completed
+-   Time complexity O(1)
+    -   summation
+    -   Power
+
+-   Cubic Time Complexity (O(n^3))
+    -   Cubic Polynomial 
+    -   Matrix Multiplication
+
+-   Factorial time complexity (O(n!))
+    -   Factorial
+    -   permutation
+
+-   Linear Time Complexity (O(n))
+    -   Reverse array
+    -   Threshold image processing
+
+-   Logarithmic Time Complexity (O(log n))
+    -   Binary Search Algorithm
+    -   Binary Search on Rotated Sorted Array
+
+-   Loglinear Time Complexity (O(n log n))
+    -   image_generation_and_sort
+    -   quicksort
+
+-   Quadratic Time Complexity ( O(n^2))
+    -   bubble_sort
+    -   fibonacci
+
+-   Quartic Time Complexity (O(n^4))
+    -   Nested Loop Multiplication
+    -   

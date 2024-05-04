@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traveling Salesman Problem</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        #result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Traveling Salesman Problem</h1>
+    <label for="numCities">Number of Cities:</label>
+    <input type="number" id="numCities" min="4" value="6">
+    <button id="runTestButton" onclick="runTest()">Run Test</button>
+
+    <div id="result" class="result">
+        <h2>Result:</h2>
+        <p id="resultText"></p>
+        <p id="timeTaken"></p>
+    </div>
+</div>
+
+<script>
+    var Module = {
+        onRuntimeInitialized: function() {
+            document.getElementById("runTestButton").disabled = false;
+        }
+    };
+
+    function runTest() {
+        var numCities = parseInt(document.getElementById("numCities").value);
+        var result = Module.ccall('runTest', 'number', ['number'], [numCities]);
+        console.log(result); // Just for debugging
+    }
+</script>
+<script src="travel.js"></script>
+
+</body>
+</html>

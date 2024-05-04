@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Permutation Calculation</title>
+</head>
+<body>
+<h1>Permutation Calculation using JavaScript</h1>
+<p id="result"></p>
+<button onclick="testPermutation()">Click</button>
+
+<script>
+    function swap(array, i, j) {
+        const temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+    
+    function reverse(array, start, end) {
+        while (start < end) {
+            swap(array, start, end);
+            start++;
+            end--;
+        }
+    }
+    
+    function nextPermutation(array) {
+        const n = array.length;
+        let i = n - 1;
+        while (i > 0 && array[i - 1] >= array[i]) i--;
+        if (i <= 0) return false;
+    
+        let j = n - 1;
+        while (array[j] <= array[i - 1]) j--;
+        swap(array, i - 1, j);
+    
+        reverse(array, i, n - 1);
+        return true;
+    }
+    
+    function factorial(n) {
+        if (n <= 1) return 1;
+        return n * factorial(n - 1);
+    }
+    
+    function calculatePermutations(n) {
+        if (n > 10) return -1;
+    
+        let count = 0;
+        const array = Array.from({ length: n }, (_, i) => i);
+        do {
+            // Introduce computation-intensive operation
+            for (let j = 0; j < 10000000; j++) {
+                count += 1; // Adjust this value
+            }
+        } while (nextPermutation(array));
+        return count;
+    }
+    
+
+function testPermutation() {
+    const n = 2; // Adjust the value of n as needed
+    const startTime = performance.now();
+    const result = calculatePermutations(n);
+    const endTime = performance.now();
+    const time = endTime - startTime;
+    document.getElementById("result").textContent = `Result: ${result}, Time taken: ${time.toFixed(2)} ms`;
+}
+</script>
+</body>
+</html>

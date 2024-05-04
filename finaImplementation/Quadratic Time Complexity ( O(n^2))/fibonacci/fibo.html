@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fibonacci</title>
+    <link rel="stylesheet" href="../../../assets/styles.css">
+</head>
+
+<body>
+
+    <div class="container">
+            <h1>Fibonacci Calculator(Recursion)</h1>
+        <label for="method">Select Implementation:</label>
+        <select id="method">
+            <option value="wasm" id="WebAssembly">WebAssembly</option>
+            <option value="js" id="JavaScript">JavaScript</option>
+        </select>
+        <label id="time_taken"></label>
+        <label for="inputNumber">Enter a Number:</label>
+        <input type="text" id="inputNumber" placeholder="Enter a number">
+        <button onclick="calculateFibonacci()" id="fibo_calc_btn">Calculate Fibonacci</button>
+        <div class="output" id="output"></div>
+    </div>
+
+    <script src="scripts.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Threshold algorithm</title>
+    <link rel="stylesheet" href="../../../assets/styles.css">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Threshold image processing</h1>
+      <label id="timeLabel"></label>
+      <!-- Label to display time taken -->
+      <label for="implementationSelect">Select Implementation:</label>
+      <select id="implementationSelect">
+        <option value="wasm">WebAssembly</option>
+        <option value="js">JavaScript</option>
+      </select>
+      <input type="file" id="thresholdImageInput" accept="image/*" />
+      <button id="processButton">Process Image</button>
+      <canvas id="thresholdOutputCanvas" style="height: auto; width: auto"></canvas>
+    </div>
+    <script src="scripts.js"></script>
+  </body>
+</html>

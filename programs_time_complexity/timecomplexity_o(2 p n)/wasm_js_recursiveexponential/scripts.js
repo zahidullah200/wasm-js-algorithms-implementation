@@ -26,7 +26,7 @@ function runWebAssemblyTest() {
 // Function to run the JavaScript test
 function runJavaScriptTest() {
   const { time, result } = measurePerformance(() => {
-    const n = 10; // Adjust the value of n
+    const n =10; // Adjust the value of n
     const exp = recursiveExponential(n); // Call the JavaScript function
     return exp;
   });
@@ -39,7 +39,7 @@ function displayResult(result, executionTime) {
   resultElement.innerHTML = `
             <h2>Recursive Exponential (O(2^n))</h2>
             <p>Result: ${result}</p>
-            <p>Execution Time: ${executionTime.toFixed(2)} milliseconds</p>
+            <p>Execution Time: ${executionTime} ms</p>
         `;
 }
 
@@ -65,8 +65,7 @@ WebAssembly.instantiateStreaming(fetch("recursiveexponential.wasm"), {
 })
   .then((results) => {
     // Expose WebAssembly functions
-    Module._testRecursiveExponential =
-      results.instance.exports.testRecursiveExponential;
+    Module._testRecursiveExponential = results.instance.exports.testRecursiveExponential;
     Module._freeMemory = results.instance.exports.freeMemory;
     Module.memory = results.instance.exports.memory;
 

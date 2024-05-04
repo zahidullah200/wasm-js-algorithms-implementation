@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Permutation Calculation</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Permutation Calculation</h1>
+        <button id="calculateButton">Calculate</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        async function loadWebAssembly() {
+            try {
+                const response = await fetch("stringper.wasm");
+                const bytes = await response.arrayBuffer();
+                const { instance } = await WebAssembly.instantiate(bytes, {
+                    env: {
+                        memoryBase: 0,
+                        tableBase: 0,
+                        memory: new WebAssembly.Memory({ initial: 256, maximum: 256 }),
+                        table: new WebAssembly.Table({ initial: 0, maximum: 0, element: "anyfunc" }),
+                        __memory_base: 0,
+                        __table_base: 0
+                    }
+                });
+                return instance.exports.calculatePermutations;
+            } catch (error) {
+                console.error('Error loading WebAssembly module:', error);
+                return null;
+            }
+        }
+
+        document.getElementById("calculateButton").onclick = async function() {
+            const calculatePermutations = await loadWebAssembly();
+            if (!calculatePermutations) return;
+
+            const resultPtr = calculatePermutations("abcd");
+            const resultLength = new Uint32Array(
+                calculatePermutations.exports.memory.buffer,
+                resultPtr,
+                1
+            )[0];
+
+            const resultArray = new Uint32Array(
+                calculatePermutations.exports.memory.buffer,
+                resultPtr + 4,
+                resultLength * 5 // 5 characters per permutation
+            );
+
+            const result = [];
+            for (let i = 0; i < resultArray.length; i += 5) {
+                const perm = String.fromCharCode(
+                    resultArray[i],
+                    resultArray[i + 1],
+                    resultArray[i + 2],
+                    resultArray[i + 3],
+                    resultArray[i + 4]
+                );
+                result.push(perm);
+            }
+
+            document.getElementById("result").innerText = `Permutations: ${result.join(', ')}`;
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reverse array</title>
+    <link rel="stylesheet" href="../../../assets/styles.css">
+</head>
+<body>
+    <div class="container">
+        <center>
+            <h1>Reverse Array</h1>
+        </center>
+        <textarea id="inputArray" placeholder="Enter numbers separated by commas"></textarea>
+        <select id="method">
+            <option value="wasm" id="webassembly">WebAssembly</option>
+            <option value="js" id="javascript">JavaScript</option>
+        </select>
+        <button onclick="reverseArray()" id="r_btn">Click to reverse</button>
+        <label id="time_taken"></label>
+        <div class="output">
+            <p id="reversedArray"></p>
+        </div>
+    </div>
+    <script src="scripts.js"></script>
+</body>
+</html>

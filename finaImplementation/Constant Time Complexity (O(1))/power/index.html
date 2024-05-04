@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebAssembly vs JavaScript</title>
+    <link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>WebAssembly vs JavaScript (Power)</h1>
+
+        <label for="testType">Select Test Type:</label>
+        <select id="testType">
+            <option value="webassembly">WebAssembly</option>
+            <option value="javascript">JavaScript</option>
+        </select>
+
+        <button id="runTestButton">Run Test</button>
+
+        <div class="result">
+            <h2 id="titleLabel">Result:</h2>
+            <p id="resultLabel">Method: <span></span></p>
+            <p id="timeLabel">Time taken: <span></span></p>
+            <p id="complexityLabel">Time Complexity: <span></span></p>
+        </div>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+
+</html>

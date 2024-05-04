@@ -102,7 +102,7 @@ let Module = {
     const resultElement = document.getElementById(elementId);
     resultElement.innerHTML = `
               <h2>${title}</h2>
-              <p>Execution Time: ${time.toFixed(2)} milliseconds</p>
+              <p>Execution Time: ${time} ms</p>
               <p>Fibonacci Number: ${result}</p>
           `;
   }

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Traveling Salesman Problem</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    h1 {
+        text-align: center;
+    }
+    #result {
+        margin-top: 20px;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Traveling Salesman Problem</h1>
+    <label for="numCities">Number of Cities:</label>
+    <input type="number" id="numCities" min="4" value="6">
+    <button id="runTestButton">Run Test</button>
+
+    <div id="result" class="result">
+        <h2>Result:</h2>
+        <p id="resultText"></p>
+        <p id="timeTaken"></p>
+    </div>
+</div>
+
+<script>
+function calculateDistance(points, path) {
+    let distance = 0;
+    for (let i = 0; i < path.length - 1; i++) {
+        const city1 = path[i];
+        const city2 = path[i + 1];
+        distance += Math.sqrt(Math.pow(points[city2][0] - points[city1][0], 2) + Math.pow(points[city2][1] - points[city1][1], 2));
+    }
+    return distance;
+}
+
+function generatePermutations(path, output, n) {
+    if (n === 1) {
+        output.push([...path]);
+        return;
+    }
+    for (let i = 0; i < n; i++) {
+        generatePermutations(path, output, n - 1);
+        if (n % 2 === 0) {
+            [path[i], path[n - 1]] = [path[n - 1], path[i]];
+        } else {
+            [path[0], path[n - 1]] = [path[n - 1], path[0]];
+        }
+    }
+}
+
+function solveTSP(points) {
+    const n = points.length;
+    const path = Array.from({ length: n }, (_, i) => i); // Generate initial path [0, 1, 2, ..., n-1]
+    const permutations = [];
+    generatePermutations(path, permutations, n);
+
+    let minDistance = Number.MAX_SAFE_INTEGER;
+    let minPath = [];
+
+    const startTime = performance.now();
+
+    for (const perm of permutations) {
+        const distance = calculateDistance(points, perm);
+        if (distance < minDistance) {
+            minDistance = distance;
+            minPath = perm;
+        }
+    }
+
+    const endTime = performance.now();
+    const timeTaken = endTime - startTime;
+
+    return { distance: minDistance, path: minPath, time: timeTaken };
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    const runTestButton = document.getElementById("runTestButton");
+    runTestButton.addEventListener("click", runTest);
+});
+
+function runTest() {
+    const numCities = parseInt(document.getElementById("numCities").value);
+    const points = generateRandomPoints(numCities);
+    const result = solveTSP(points);
+
+    const resultText = `Shortest Path: ${result.path.join(" -> ")}, Distance: ${result.distance.toFixed(2)}`;
+    const timeTaken = `Time taken: ${result.time.toFixed(2)} ms`;
+
+    document.getElementById("resultText").textContent = resultText;
+    document.getElementById("timeTaken").textContent = timeTaken;
+}
+
+function generateRandomPoints(numCities) {
+    const points = [];
+    for (let i = 0; i < numCities; i++) {
+        const x = Math.floor(Math.random() * 100); // Adjust according to your needs
+        const y = Math.floor(Math.random() * 100); // Adjust according to your needs
+        points.push([x, y]);
+    }
+    return points;
+}
+</script>
+
+</body>
+</html>

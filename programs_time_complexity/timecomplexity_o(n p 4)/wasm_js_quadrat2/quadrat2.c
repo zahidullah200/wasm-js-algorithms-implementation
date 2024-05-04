@@ -6,9 +6,22 @@
 int calculateTimeComplexity()
 {
     int result = 0;
-    int arr[] = {1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 9, 8, 6, 7, 8, 9, 7, 8, 4, 5, 6};
-    int n = sizeof(arr) / sizeof(arr[0]);
+    int n = 5; // size of the array
 
+    // Allocate memory for the array
+    int *arr = (int *)malloc(n * sizeof(int));
+    if (arr == NULL)
+    {
+        return -1; // Memory allocation failed
+    }
+
+    // Initialize the array
+    for (int i = 0; i < n; i++)
+    {
+        arr[i] = i + 1;
+    }
+
+    // Perform the time-complexity operation
     for (int i = 0; i < n; i++)
     {
         for (int j = 0; j < n; j++)
@@ -22,6 +35,10 @@ int calculateTimeComplexity()
             }
         }
     }
+
+    // Free allocated memory
+    free(arr);
+
     return result;
 }
 

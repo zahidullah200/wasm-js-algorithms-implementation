@@ -24,16 +24,18 @@ function runProgram1() {
   resultDiv.innerHTML = `
         <p>Result: Last number generated: ${result}</p>
         <p>Time Complexity: O(1)</p>
-        <p>Performance Time: ${elapsedTime.toFixed(2)} milliseconds</p>
+        <p>Performance Time: ${elapsedTime.toFixed(2)} ms</p>
         <p>Generated Numbers: ${numbers.join(", ")}</p>
     `;
 }
 
 // WebAssembly program to generate numbers and measure performance
 function runWasm() {
-  const startTime = performance.now();
-  fetch("constanttimeloopwasm.wasm") // Load WebAssembly module
-    .then((response) => WebAssembly.instantiateStreaming(response, {}))
+  WebAssembly.instantiateStreaming(fetch("constanttimeloopwasm.wasm"), {
+    env: {
+      emscripten_resize_heap: () => {}, // Define the required function
+    },
+  }) // Provide the necessary functions in the env object
     .then((obj) => {
       const { instance } = obj;
       const numbersPtr = instance.exports.generateNumbers(); // Call WebAssembly function
@@ -45,6 +47,10 @@ function runWasm() {
       const numbersDiv = document.getElementById("output");
       numbersDiv.innerHTML = `${numbersArray.join(", ")}`;
 
+      const startTime = performance.now();
+      // Free the memory allocated for the array
+      instance.exports.freeNumbers(numbersPtr);
+
       const endTime = performance.now();
       const elapsedTime = endTime - startTime;
 
@@ -54,7 +60,7 @@ function runWasm() {
                   numbersArray[numbersArray.length - 1]
                 }</p>
                 <p>Time Complexity: O(1)</p>
-                <p>Performance Time: ${elapsedTime.toFixed(2)} milliseconds</p>
+                <p>Performance Time: ${elapsedTime.toFixed(2)} ms</p>
                 <p>Generated Numbers: ${numbersArray.join(", ")}</p>
             `;
     })

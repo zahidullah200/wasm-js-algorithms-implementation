@@ -6,7 +6,7 @@
 // Define a struct to represent key-value pairs
 typedef struct
 {
-    char key[20];
+    char key[0];
     int value;
 } KeyValuePair;
 
@@ -21,7 +21,6 @@ int testHashLookup()
     // Populate the hash table
     for (int i = 0; i < size; i++)
     {
-        sprintf(hashTable[i].key, "key_%d", i);
         hashTable[i].value = i;
     }
 

@@ -16,7 +16,7 @@ async function runCalculation() {
 
 // JavaScript test for permutation calculation
 function testPermutation() {
-  const n = 9; // Adjust the value of n (up to 8 for reasonable runtime)
+  const n = 12; // Adjust the value of n (up to 8 for reasonable runtime)
   const { time, result } = measurePerformance(() => {
     const permutations = calculatePermutations(n); // O(n!) time operation
     return permutations;
@@ -49,8 +49,6 @@ function calculatePermutations(n) {
 
 // WebAssembly test for permutation calculation
 async function testPermutationWASM() {
-  const startTime = performance.now();
-  
   try {
     // Fetch and instantiate the WebAssembly module
     const response = await fetch("permulation.wasm");
@@ -69,10 +67,10 @@ async function testPermutationWASM() {
     });
 
     // Expose WebAssembly functions
-    Module.testPermutation = instance.exports.testPermutation;
-
+    Module.testPermutation = instance.exports.calculatePermutations;
+    const startTime = performance.now();
     // Call the WebAssembly function
-    const result = Module.testPermutation(9); // Adjust the value of n
+    const result = Module.testPermutation(12); // Adjust the value of n
 
     const endTime = performance.now();
     const time = endTime - startTime;
@@ -87,8 +85,8 @@ async function testPermutationWASM() {
 function displayResult(time, result) {
   const resultDiv = document.getElementById("result");
   resultDiv.innerHTML = `
-        <p>Execution Time: ${time.toFixed(2)} milliseconds</p>
+        <p>Execution Time: ${time.toFixed(2)} ms</p>
         <p>Permutations: ${result}</p>
-        <p>Time Complexity: O(n!) (Factorial Time)</p>
+        <p>Time Complexity: O(n!)</p>
     `;
 }

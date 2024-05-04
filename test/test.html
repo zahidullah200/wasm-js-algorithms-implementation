@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test </title>
+</head>
+<body>
+
+    <button onclick="testFactorialWASM()">CLick</button>
+    <script>
+        
+// WebAssembly test for factorial calculation
+async function testFactorialWASM() {
+    try {
+      // Fetch and instantiate the WebAssembly module
+      const response = await fetch("test.wasm");
+      const { instance } = await WebAssembly.instantiateStreaming(response, {
+        env: {
+          memoryBase: 0,
+          tableBase: 0,
+          memory: new WebAssembly.Memory({ initial: 256, maximum: 256 }),
+          table: new WebAssembly.Table({
+            initial: 0,
+            maximum: 0,
+            element: "anyfunc",
+          }),
+          emscripten_resize_heap: () => {},
+        },
+      });
+  
+      const startTime = performance.now();
+      // Expose WebAssembly function
+      const testFactorial = instance.exports.summation;
+  
+      // Call the WebAssembly function
+      const n = 170; // Set the value of n
+      const factorial = testFactorial(); // Result directly returned as a number
+      console.log(factorial)
+  
+      const endTime = performance.now();
+      const time = endTime - startTime;
+      console.log("time taken",time);
+    
+    } catch (error) {
+      console.error("Error loading WebAssembly module:", error);
+    }
+  }
+  
+        
+    </script>
+</body>
+</html>

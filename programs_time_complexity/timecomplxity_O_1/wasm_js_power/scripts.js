@@ -10,7 +10,6 @@ function runTest() {
 
 // WebAssembly test for constant time operation
 async function testConstantTimeWASM() {
-  const startTime = performance.now();
 
   try {
     const response = await fetch("powerofnum.wasm"); // Fetch the WebAssembly binary
@@ -24,12 +23,13 @@ async function testConstantTimeWASM() {
 
     const base = 30;
     const exponent = 100;
+    const startTime = performance.now();
     const result = wasmModule.exports.calculatePower(base, exponent); // Call the WebAssembly function
 
     const endTime = performance.now();
     const elapsedTime = endTime - startTime;
 
-    displayResult(elapsedTime.toFixed(2), result, "Constant Time (O(1))"); // Display the result
+    displayResult(elapsedTime.toFixed(2), result, "Power (O(1))"); // Display the result
   } catch (error) {
     console.error("Error loading WebAssembly module:", error);
   }
@@ -65,7 +65,7 @@ function displayResult(time, result, complexity) {
   document.getElementById("resultLabel").textContent = `Result: ${result}`;
   document.getElementById(
     "timeLabel"
-  ).textContent = `Performance Time: ${time} milliseconds`;
+  ).textContent = `Performance Time: ${time} ms`;
   document.getElementById(
     "complexityLabel"
   ).textContent = `Time Complexity: ${complexity}`;

@@ -85,7 +85,7 @@ function displayResult(time, result) {
   const resultElement = document.getElementById("result");
   resultElement.innerHTML = `
         <h2>Time Complexity O(n^4)</h2>
-        <p>Execution Time: ${time.toFixed(2)} milliseconds</p>
+        <p>Execution Time: ${time} ms</p>
         <p>Result: ${result}</p>
     `;
   resultElement.style.display = "block";

@@ -1038,6 +1038,19 @@ function dbg(...args) {
       }
     };
 
+  var getHeapMax = () =>
+      HEAPU8.length;
+  
+  var abortOnCannotGrowMemory = (requestedSize) => {
+      abort(`Cannot enlarge memory arrays to size ${requestedSize} bytes (OOM). Either (1) compile with -sINITIAL_MEMORY=X with X higher than the current value ${HEAP8.length}, (2) compile with -sALLOW_MEMORY_GROWTH which allows increasing the size at runtime, or (3) if you want malloc to return NULL (0) instead of this abort, compile with -sABORTING_MALLOC=0`);
+    };
+  var _emscripten_resize_heap = (requestedSize) => {
+      var oldSize = HEAPU8.length;
+      // With CAN_ADDRESS_2GB or MEMORY64, pointers are already unsigned.
+      requestedSize >>>= 0;
+      abortOnCannotGrowMemory(requestedSize);
+    };
+
   var getCFunc = (ident) => {
       var func = Module['_' + ident]; // closure exported function
       assert(func, 'Cannot call unknown function ' + ident + ', make sure it is exported');
@@ -1277,11 +1290,13 @@ function checkIncomingModuleAPI() {
   ignoredModuleProp('fetchSettings');
 }
 var wasmImports = {
-  
+  /** @export */
+  emscripten_resize_heap: _emscripten_resize_heap
 };
 var wasmExports = createWasm();
 var ___wasm_call_ctors = createExportWrapper('__wasm_call_ctors');
 var _generateNumbers = Module['_generateNumbers'] = createExportWrapper('generateNumbers');
+var _freeNumbers = Module['_freeNumbers'] = createExportWrapper('freeNumbers');
 var _fflush = createExportWrapper('fflush');
 var _emscripten_stack_init = () => (_emscripten_stack_init = wasmExports['emscripten_stack_init'])();
 var _emscripten_stack_get_free = () => (_emscripten_stack_get_free = wasmExports['emscripten_stack_get_free'])();
@@ -1311,8 +1326,6 @@ var missingLibrarySymbols = [
   'convertU32PairToI53',
   'zeroMemory',
   'exitJS',
-  'getHeapMax',
-  'abortOnCannotGrowMemory',
   'growMemory',
   'isLeapYear',
   'ydayFromDate',
@@ -1507,6 +1520,8 @@ var unexportedSymbols = [
   'writeStackCookie',
   'checkStackCookie',
   'ptrToString',
+  'getHeapMax',
+  'abortOnCannotGrowMemory',
   'ENV',
   'MONTH_DAYS_REGULAR',
   'MONTH_DAYS_LEAP',
