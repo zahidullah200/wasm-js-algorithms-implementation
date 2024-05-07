@@ -73,7 +73,7 @@ async function runTest() {
     const resultDiv = document.getElementById("result");
     resultDiv.innerHTML = ""; // Clear previous content
     const resultText = `
-        <p>Time taken: ${time === undefined ? "Not available" : time} ms</p>
+        <p id="timetaken">${time === undefined ? "Not available" : time} ms</p>
         <p>Time Complexity: O(n!)</p>
         <p>Number of possible combinations for n=${n}: ${combinations}</p>
     `;

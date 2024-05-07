@@ -79,8 +79,8 @@ async function testTimeComplexityWASM() {
     }
 
     const endTime = performance.now();
-    const executionTime = (endTime - startTime).toFixed(2);
-    const timeInfo = `<div class="time-info"><strong>${executionTime} ms</strong></div>`;
+    const executionTime = (endTime - startTime);
+    const timeInfo = `<div class="time-info" id="timetaken">${executionTime} ms</div>`;
 
     const complexity = "O(n^3)"; // Time complexity of matrix multiplication
     const complexityInfo = `<div class="complexity-info">Time Complexity: <strong>${complexity}</strong></div>`;
@@ -150,7 +150,7 @@ function displayResult(time, result, elementId, title) {
         <div class="result-header">
             <h2>${title}</h2>
         </div>
-        <div class="time-info">Execution Time: <strong>${time} ms</strong></div>
+        <div class="time-info" id="timetaken">${time} ms</div>
         <p>Result Matrix:</p>
         <pre class="result-matrix">${JSON.stringify(result, null, 2)}</pre>
     `;

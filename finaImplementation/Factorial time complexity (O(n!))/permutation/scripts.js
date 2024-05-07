@@ -75,10 +75,8 @@ async function testPermutationWASM() {
     const endTime = performance.now();
     const time = endTime - startTime;
 
-    // Display result
-    document.getElementById(
-      "permutationResult"
-    ).textContent = `Result: ${result}, Time taken: ${time} ms`;
+    document.getElementById("result").textContent = `Result: ${result}`;
+    document.getElementById("timeTaken").textContent = `${time} ms`;
   } catch (error) {
     console.error("Error:", error);
   }
@@ -101,7 +99,6 @@ function testPermutation() {
   const result = calculatePermutations(n);
   const endTime = performance.now();
   const time = endTime - startTime;
-  document.getElementById(
-    "permutationResult"
-  ).textContent = `Result: ${result}, Time taken: ${time } ms`;
+  document.getElementById("result").textContent = `Result: ${result}`;
+  document.getElementById("timeTaken").textContent = `${time} ms`;
 }

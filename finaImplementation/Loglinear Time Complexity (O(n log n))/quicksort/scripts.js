@@ -14,7 +14,7 @@
             const endTime = performance.now();
             const elapsedTime = endTime - startTime;
 
-            document.getElementById("timeLabel").textContent = `${elapsedTime.toFixed(2)} ms`;
+            document.getElementById("timetaken").textContent = `${elapsedTime.toFixed(2)} ms`;
             document.getElementById("sortedArray").textContent = sortedArray.join(", ");
         }
 

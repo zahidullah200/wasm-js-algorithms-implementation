@@ -1,0 +1,71 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    font-family: Berlin Sans FB;
+}
+
+.header {
+    margin-bottom: 20px;
+}
+
+h1 {
+    text-align: center;
+
+
+}
+
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+.box {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 30px;
+    margin: 10px;
+    text-align: center;
+    font-size: 18px;
+    width: 280px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+#algo{
+    height: 300px; 
+    width:300px; 
+    font-size:30px; 
+    line-height:40px;
+    margin:30px;
+    padding:30px;
+    border-radius:10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+a{
+    text-decoration:none;
+    cursor:pointer;
+}
+.box:hover {
+    background-color: #e0e0e0;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .column {
+        margin-top: 20px;
+    }
+}

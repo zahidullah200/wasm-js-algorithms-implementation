@@ -43,7 +43,7 @@ function displayResult(time, result, elementId, title) {
   const resultElement = document.getElementById(elementId);
   resultElement.innerHTML = `
         <h2>${title}</h2>
-        <p>Execution Time: ${time.toFixed(2)} milliseconds</p>
+        <p id="timetaken"> ${time} ms</p>
         <p>Result: ${result}</p>
     `;
   resultElement.style.display = "block";

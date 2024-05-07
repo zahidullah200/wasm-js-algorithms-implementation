@@ -14,10 +14,10 @@
     <div class="container">
         <h1>Binary Search Performance Test</h1>
         <select id="method">
-            <option value="wasm">WebAssembly</option>
-            <option value="js">JavaScript</option>
+            <option value="wasm" id="webassembly">WebAssembly</option>
+            <option value="js" id="javascript">JavaScript</option>
         </select>
-        <button onclick="runTest()">Run Test</button>
+        <button onclick="runTest()" id="binarysearchbtn">Run Test</button>
         <div class="result" id="binarySearchResult"></div>
     </div>
 

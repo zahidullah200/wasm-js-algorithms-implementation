@@ -78,7 +78,7 @@ function displayResult(time, result, title, implementation) {
   resultElement.innerHTML = `
         <div class="result">
             <h2>${title} (${implementation})</h2>
-            <p>Execution Time: ${time} ms</p>
+            <p id="timetaken"> ${time} ms</p>
             <p>Result: ${result}</p>
         </div>
     `;

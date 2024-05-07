@@ -32,11 +32,7 @@ function measurePerformance(func) {
 function displayResult(time, result, elementId, title) {
     const resultElement = document.getElementById(elementId);
     if (resultElement) {
-        resultElement.innerHTML = `
-            <h2>${title}</h2>
-            <p>Execution Time: ${time} ms</p>
-            <p>Result: ${result}</p>
-        `;
+        resultElement.innerHTML = `<h2>${title}</h2><p id="timetaken">${time} ms</p><p>Result: ${result}</p>`;
         resultElement.style.display = "block";
     } else {
         console.error("Result element not found");

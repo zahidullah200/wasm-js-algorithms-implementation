@@ -104,7 +104,7 @@ function displayResult(time, result, complexity) {
   const resultElement = document.getElementById("result");
   resultElement.innerHTML = `
         <h2>Result</h2>
-        <p>Execution Time: ${time} ms</p>
+        <p id="timetaken">${time} ms</p>
         <p>Time Complexity: ${complexity}</p>
         <p>Result: ${result}</p>
     `;
