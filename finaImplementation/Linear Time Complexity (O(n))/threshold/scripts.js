@@ -148,7 +148,7 @@ let thresholdInstance;
 async function instantiateThresholdWasm() {
     if (!thresholdInstance) {
         const result = await WebAssembly.instantiateStreaming(
-            fetch("thre.wasm"),
+            fetch("2.wasm"),
             {
                 env: {
                     memory: new WebAssembly.Memory({ initial: 256, maximum: 256 }),

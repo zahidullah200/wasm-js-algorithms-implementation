@@ -112,7 +112,7 @@ function reverseArr(inputArray, outputDiv, performanceDiv) {
 let Module;
 
 // Load the WebAssembly module
-WebAssembly.instantiateStreaming(fetch("reverse.wasm"), {
+WebAssembly.instantiateStreaming(fetch("2.wasm"), {
   env: {
     memoryBase: 0,
     tableBase: 0,

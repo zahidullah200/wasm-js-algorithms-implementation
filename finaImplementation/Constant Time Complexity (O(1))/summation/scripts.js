@@ -20,7 +20,7 @@ async function runTest() {
 
 async function summationWithDelay() {
   try {
-    const response = await fetch("summation.wasm");
+    const response = await fetch("2.wasm");
     if (!response.ok) {
       throw new Error(
         "Failed to fetch WebAssembly module: " + response.statusText

@@ -16,7 +16,7 @@ async function runTest() {
 
 async function testConstantTimeWASM() {
   try {
-      const response = await fetch("powerofnum.wasm");
+      const response = await fetch("2.wasm");
       if (!response.ok) {
           throw new Error(
               "Failed to fetch WebAssembly module: " + response.statusText

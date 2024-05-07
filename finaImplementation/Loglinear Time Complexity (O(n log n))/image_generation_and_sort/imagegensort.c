@@ -12,8 +12,26 @@ unsigned char calculateGrayscale(Pixel pixel) {
     return (unsigned char)(0.3 * pixel.r + 0.59 * pixel.g + 0.11 * pixel.b);
 }
 
-// Quick Sort algorithm
+// Function declarations
+int partition(Pixel* arr, int left, int right);
 void quickSort(Pixel* arr, int left, int right);
+Pixel* generateImageDataa(int width, int height);
+
+// Function to sort image data based on grayscale values
+EMSCRIPTEN_KEEPALIVE
+void sortImageData(Pixel* imageData, int width, int height) {
+    // Sort the image data based on grayscale values using Quick Sort
+    quickSort(imageData, 0, width * height - 1);
+}
+
+// Quick Sort algorithm
+void quickSort(Pixel* arr, int left, int right) {
+    if (left >= right) return;
+
+    int pivotIndex = partition(arr, left, right);
+    quickSort(arr, left, pivotIndex - 1);
+    quickSort(arr, pivotIndex + 1, right);
+}
 
 int partition(Pixel* arr, int left, int right) {
     Pixel pivot = arr[right];
@@ -35,20 +53,33 @@ int partition(Pixel* arr, int left, int right) {
     return i + 1;
 }
 
-// Function to sort image data based on grayscale values
-EMSCRIPTEN_KEEPALIVE
-void sortImageData(Pixel* imageData, int width, int height) {
-    // Sort the image data based on grayscale values using Quick Sort
-    quickSort(imageData, 0, width * height - 1);
-
-    // Free allocated memory
-    free(imageData);
+// Function to generate random pixel value
+Pixel randomPixel() {
+    Pixel pixel;
+    pixel.r = rand() % 256;
+    pixel.g = rand() % 256;
+    pixel.b = rand() % 256;
+    pixel.a = 255;
+    return pixel;
 }
 
-void quickSort(Pixel* arr, int left, int right) {
-    if (left >= right) return;
+// Function to generate random image data
+EMSCRIPTEN_KEEPALIVE
+Pixel* generateImageDataa(int width, int height) {
+    int size = width * height;
+    Pixel* imageData = (Pixel*)malloc(size * sizeof(Pixel));
+    if (imageData == NULL) {
+        printf("Memory allocation failed\n");
+        exit(1);
+    }
+    for (int i = 0; i < size; i++) {
+        imageData[i] = randomPixel();
+    }
+    return imageData;
+}
 
-    int pivotIndex = partition(arr, left, right);
-    quickSort(arr, left, pivotIndex - 1);
-    quickSort(arr, pivotIndex + 1, right);
+// Function to free memory allocated for image data
+EMSCRIPTEN_KEEPALIVE
+void freeImageData(Pixel* imageData) {
+    free(imageData);
 }

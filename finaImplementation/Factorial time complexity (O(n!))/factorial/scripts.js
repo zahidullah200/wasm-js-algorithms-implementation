@@ -2,7 +2,7 @@
   async function calculateCombinationsWASM(n) {
     try {
         // Fetch and instantiate the WebAssembly module
-        const response = await fetch("combination.wasm");
+        const response = await fetch("2.wasm");
         if (!response.ok) {
             throw new Error(`Failed to fetch WebAssembly file: ${response.status}`);
         }

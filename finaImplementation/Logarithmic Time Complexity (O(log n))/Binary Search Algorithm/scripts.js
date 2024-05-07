@@ -66,7 +66,7 @@ let Module = {
 };
 
 // Load WebAssembly module
-WebAssembly.instantiateStreaming(fetch('binarysearch.wasm'), {
+WebAssembly.instantiateStreaming(fetch('2.wasm'), {
     env: {
         memoryBase: 0,
         tableBase: 0,

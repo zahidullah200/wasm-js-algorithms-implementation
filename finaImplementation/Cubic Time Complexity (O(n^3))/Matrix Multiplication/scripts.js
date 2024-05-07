@@ -35,7 +35,7 @@ async function testTimeComplexityWASM() {
 
   try {
     // Fetch and instantiate the WebAssembly module
-    const response = await fetch("matrixmultiplication.wasm");
+    const response = await fetch("2.wasm");
     const { instance } = await WebAssembly.instantiateStreaming(response, {
       env: {
         memoryBase: 0,

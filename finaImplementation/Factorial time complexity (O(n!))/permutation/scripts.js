@@ -50,7 +50,7 @@ function calculatePermutations(n) {
 async function testPermutationWASM() {
   try {
     // Fetch and instantiate the WebAssembly module
-    const response = await fetch("permu.wasm");
+    const response = await fetch("2.wasm");
     const { instance } = await WebAssembly.instantiateStreaming(response, {
       env: {
         emscripten_resize_heap: () => {},

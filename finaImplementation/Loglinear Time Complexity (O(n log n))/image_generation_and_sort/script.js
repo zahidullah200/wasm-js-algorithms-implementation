@@ -1,5 +1,3 @@
-// index.js
-
 document.addEventListener("DOMContentLoaded", function () {
   const sortBtn = document.getElementById("sort_btn");
   const wasmJsSelect = document.getElementById("wasm-js");
@@ -21,7 +19,7 @@ function sortWithWasm() {
   let instance; // Declare instance globally
 
   // Load the WebAssembly module globally
-  WebAssembly.instantiateStreaming(fetch("imagegensort.wasm"), {
+  WebAssembly.instantiateStreaming(fetch("2.wasm"), {
     wasi_snapshot_preview1: {
       fd_close: () => {},
       fd_write: () => {},
@@ -55,11 +53,10 @@ function sortWithWasm() {
     const height = 400;
 
     // Generate image data
-    const originalImageDataPointer = instance.exports.generateImageData(
+    const originalImageDataPointer = instance.exports.generateImageDataa(
       width,
       height
     );
-    console.log("Original image data generated:", originalImageDataPointer);
     const originalImageData = new Uint8ClampedArray(
       instance.exports.memory.buffer,
       originalImageDataPointer,
@@ -99,34 +96,34 @@ function sortWithWasm() {
   }
 }
 
-//Pure js function
 function sortWithJs() {
-  // Function to generate a random pixel value (for demonstration)
+  const width = 400;
+  const height = 400;
+
+  // Function to generate random pixel value
   function randomPixel() {
-    return Math.floor(Math.random() * 256); // Generate a random value between 0 and 255 (inclusive)
+    return [
+      Math.floor(Math.random() * 256), // Red
+      Math.floor(Math.random() * 256), // Green
+      Math.floor(Math.random() * 256), // Blue
+      255, // Alpha
+    ];
   }
 
   // Function to generate random image data
   function generateImageData(width, height) {
-    const pixelCount = width * height;
-    const imageData = new Uint8ClampedArray(pixelCount * 4); // 4 bytes per pixel (RGBA)
+    const imageData = new Uint8ClampedArray(width * height * 4); // RGBA format
 
-    for (let i = 0; i < pixelCount; i++) {
-      const offset = i * 4; // Each pixel occupies 4 consecutive bytes (RGBA)
-      imageData[offset] = randomPixel(); // Red
-      imageData[offset + 1] = randomPixel(); // Green
-      imageData[offset + 2] = randomPixel(); // Blue
-      imageData[offset + 3] = 255; // Alpha (opaque)
+    for (let i = 0; i < width * height; i++) {
+      const pixelIndex = i * 4;
+      const pixel = randomPixel();
+      imageData[pixelIndex] = pixel[0]; // Red
+      imageData[pixelIndex + 1] = pixel[1]; // Green
+      imageData[pixelIndex + 2] = pixel[2]; // Blue
+      imageData[pixelIndex + 3] = pixel[3]; // Alpha
     }
 
-    return new ImageData(imageData, width, height);
-  }
-
-  // Function to draw image data onto canvas
-  function drawImage(imageData, canvasId) {
-    const canvas = document.getElementById(canvasId);
-    const ctx = canvas.getContext("2d");
-    ctx.putImageData(imageData, 0, 0);
+    return imageData;
   }
 
   // Function to calculate grayscale value of a pixel
@@ -137,42 +134,41 @@ function sortWithJs() {
   // Function to sort pixels based on grayscale values using Quick Sort
   function sortPixelsByGrayscale(imageData) {
     const startTime = performance.now();
-
-    const pixels = imageData.data;
-
+  
+    const pixels = new Uint32Array(imageData.data.buffer); // Convert to Uint32 for faster access
+  
     // Helper function to get pixel value at given coordinates
     function getPixel(x, y) {
-      const offset = (y * imageData.width + x) * 4;
-      return [
-        pixels[offset],
-        pixels[offset + 1],
-        pixels[offset + 2],
-        pixels[offset + 3],
-      ];
+      const offset = y * imageData.width + x;
+      const pixelValue = pixels[offset];
+      const r = (pixelValue >> 24) & 0xff;
+      const g = (pixelValue >> 16) & 0xff;
+      const b = (pixelValue >> 8) & 0xff;
+      const a = pixelValue & 0xff;
+      return [r, g, b, a];
     }
-
+  
     // Helper function to set pixel value at given coordinates
     function setPixel(x, y, pixel) {
-      const offset = (y * imageData.width + x) * 4;
-      pixels[offset] = pixel[0];
-      pixels[offset + 1] = pixel[1];
-      pixels[offset + 2] = pixel[2];
-      pixels[offset + 3] = pixel[3];
+      const offset = y * imageData.width + x;
+      const pixelValue =
+        (pixel[3] << 24) | (pixel[0] << 16) | (pixel[1] << 8) | pixel[2]; // Reorder RGBA
+      pixels[offset] = pixelValue;
     }
-
+  
     // Quick Sort algorithm
     function quickSort(arr, left, right) {
       if (left >= right) return;
-
+  
       const pivotIndex = partition(arr, left, right);
       quickSort(arr, left, pivotIndex - 1);
       quickSort(arr, pivotIndex + 1, right);
     }
-
+  
     function partition(arr, left, right) {
       const pivot = calculateGrayscale(arr[right]);
       let i = left - 1;
-
+  
       for (let j = left; j <= right - 1; j++) {
         if (calculateGrayscale(arr[j]) <= pivot) {
           i++;
@@ -181,44 +177,53 @@ function sortWithJs() {
           arr[j] = temp;
         }
       }
-
+  
       const temp = arr[i + 1];
       arr[i + 1] = arr[right];
       arr[right] = temp;
-
+  
       return i + 1;
     }
-
+  
     // Sort pixels based on grayscale values using Quick Sort
-    const width = imageData.width;
-    const height = imageData.height;
-    const pixelArray = Array.from({ length: width * height }, (_, i) =>
-      getPixel(i % width, Math.floor(i / width))
+    const pixelArray = Array.from({ length: imageData.width * imageData.height }, (_, i) =>
+      getPixel(i % imageData.width, Math.floor(i / imageData.width))
     );
     quickSort(pixelArray, 0, pixelArray.length - 1);
-
+  
     // Update image data with sorted pixels
     for (let i = 0; i < pixelArray.length; i++) {
-      setPixel(i % width, Math.floor(i / width), pixelArray[i]);
+      setPixel(i % imageData.width, Math.floor(i / imageData.width), pixelArray[i]);
     }
-
+  
+    // Create a new Uint8ClampedArray and populate it with sorted pixels
+    const sortedImageData = new Uint8ClampedArray(pixels.length * 4);
+    for (let i = 0; i < pixelArray.length; i++) {
+      const offset = i * 4;
+      sortedImageData[offset] = pixelArray[i][0];
+      sortedImageData[offset + 1] = pixelArray[i][1];
+      sortedImageData[offset + 2] = pixelArray[i][2];
+      sortedImageData[offset + 3] = pixelArray[i][3];
+    }
+  
+    // Create a new ImageData object from the clamped array
+    const sortedImageDataObject = new ImageData(sortedImageData, imageData.width, imageData.height);
+  
     const endTime = performance.now();
     const elapsedTime = endTime - startTime;
-
-    return { imageData, elapsedTime };
+  
+    return { imageData: sortedImageDataObject, elapsedTime };
   }
-
+  
   // Generate random image data
-  const width = 400;
-  const height = 400;
-  const imageData = generateImageData(width, height);
+  const originalImageData = generateImageData(width, height);
 
   // Draw the original image
-  drawImage(imageData, "img-canvas");
+  drawImage(originalImageData, "img-canvas");
 
   // Sort pixels based on grayscale values
   const { imageData: sortedImageData, elapsedTime } =
-    sortPixelsByGrayscale(imageData);
+    sortPixelsByGrayscale(originalImageData);
 
   // Draw the sorted image
   drawImage(sortedImageData, "sort-canvas");
@@ -226,4 +231,11 @@ function sortWithJs() {
   // Display performance time
   const performanceLabel = document.getElementById("time_taken");
   performanceLabel.textContent = `${elapsedTime.toFixed(2)} ms`;
+}
+
+// Function to draw image data onto canvas
+function drawImage(imageData, canvasId) {
+  const canvas = document.getElementById(canvasId);
+  const ctx = canvas.getContext("2d");
+  ctx.putImageData(imageData, 0, 0);
 }

@@ -18,7 +18,7 @@ async function runTest() {
 async function testCubicPolynomialWASM() {
   try {
     // Fetch and instantiate the WebAssembly module
-    const response = await fetch("cubicpolynomial.wasm");
+    const response = await fetch("2.wasm");
     const { instance } = await WebAssembly.instantiateStreaming(response, {
       env: {
         emscripten_memcpy_js: function (dest, src, num) {

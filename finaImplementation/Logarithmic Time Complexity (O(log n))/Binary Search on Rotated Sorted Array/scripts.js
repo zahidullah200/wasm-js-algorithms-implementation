@@ -116,7 +116,7 @@ function testRotatedSortedArrayBinarySearchWASM() {
 }
 
 // Load WebAssembly module
-WebAssembly.instantiateStreaming(fetch("rotatedsortedbinary.wasm"), {
+WebAssembly.instantiateStreaming(fetch("2.wasm"), {
   env: {
     memoryBase: 0,
     tableBase: 0,
