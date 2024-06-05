@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selection Sort WASM/JS</title>
+    <link rel="stylesheet" href="../../../assets/styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Selection Sort</h1>
+        <label for="inputArray">Enter numbers separated by commas:</label>
+
+        <textarea id="inputArray" placeholder="e.g., 5, 3, 8, 2"></textarea>
+        
+        <br>
+        <label for="sortingMethod">Select sorting method:</label>
+        <select id="sortingMethod" >
+            <option value="wasm" id="WebAssembly" >WebAssembly</option>
+            <option value="js" id="JavaScript">JavaScript</option>
+        </select>
+        <button id="sortButton">Sort</button>
+        <div id="time_taken"></div>
+        <p id="result"></p>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+
+</html>

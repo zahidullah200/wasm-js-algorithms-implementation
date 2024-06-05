@@ -18,7 +18,7 @@
     -   emcc quick.c -o quick.js -s NO_EXIT_RUNTIME=1 -s EXPORTED_RUNTIME_METHODS=ccall,cwrap
 
 
-
+-   emcc selectionsort.c -o selectionsort.js -s EXPORTED_FUNCTIONS="['_selectionSort', '_malloc', '_free']" -s NO_EXIT_RUNTIME=1 -s EXPORTED_RUNTIME_METHODS=ccall,cwrap  -s MODULARIZE=1 -s "EXPORT_ES6=1"
 
 
 Completed
