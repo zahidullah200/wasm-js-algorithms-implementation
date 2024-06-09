@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Page Content</title>
+    <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+    <div class="header">
+        <h1>WebAssembly and JavaScript Algorithms Implementation <br> based on time complexity</h1>
+    </div>
+    <div class="container-main" id="cont">
+        <div class="column">
+            <div class="box" onclick="loadContent('constant', this)" id="o(1)">Constant Time Complexity<br> (O(1))</div>
+            <div class="box" onclick="loadContent('linear', this)" id="o(n)">Linear Time Complexity<br> (O(n))</div>
+            <div class="box" onclick="loadContent('factorial', this)" id="O(n!)">Factorial Time Complexity<br> (O(n!))</div>
+            <div class="box" onclick="loadContent('quadratic', this)" id="O(n^2)">Quadratic Time Complexity<br> (O(n^2))</div>
+        </div>
+        <div class="column">
+            <div class="box" onclick="loadContent('cubic', this)" id="O(n^3)">Cubic Time Complexity<br> (O(n^3))</div>
+            <div class="box" onclick="loadContent('quartic', this)" id="O(n^4)">Quartic Time Complexity<br> (O(n^4))</div>
+            <div class="box" onclick="loadContent('logarithmic', this)" id="O(logn)">Logarithmic Time Complexity<br> (O(log n))</div>
+            <div class="box" onclick="loadContent('loglinear', this)" id="O(nlogn)">Loglinear Time Complexity<br> (O(n log n))</div>
+        </div>
+        <div id="child"></div>
+    </div>
+
+    <script src="assets/scripts.js"></script>
+</body>
+</html>
